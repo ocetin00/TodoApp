@@ -48,6 +48,9 @@ class TodoListAdapter(
     fun updateList(lstUser: List<Todo>) {
         mList = lstUser
     }
+    fun changePosition(){
+        
+    }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoItemViewHolder {

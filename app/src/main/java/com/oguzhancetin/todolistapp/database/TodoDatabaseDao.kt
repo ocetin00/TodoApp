@@ -13,8 +13,9 @@ interface TodoDatabaseDao {
     @Delete
     suspend fun deleteTodo(todo: Todo)
 
-    @Query("SELECT * FROM todo_table")
-    fun getAllTodo(): LiveData<List<Todo>>
+    //order to striked todo put end of list
+    @Query("SELECT * FROM todo_table ORDER BY isStrike =:isStrike ")
+    fun getAllTodo(isStrike: Boolean = false): LiveData<List<Todo>>
 
 
     @Query("DELETE FROM todo_table")

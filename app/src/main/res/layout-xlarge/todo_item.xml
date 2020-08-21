@@ -23,7 +23,7 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_view"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="8dp"
         android:layout_marginBottom="3dp"
 
@@ -37,15 +37,15 @@
 
             <CheckBox
                 android:id="@+id/checkBox"
-                android:layout_width="300dp"
+                android:layout_width="793dp"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
                 android:layout_marginLeft="20dp"
-                android:checked="@{todo.strike}"
-
-                android:onClick="@{(myview)-> clickListenerCheck.onClickedCheckbox(todo,myview)}"
-                android:text="App yaz"
                 android:buttonTint="@color/colorPrimary"
+                android:checked="@{todo.strike}"
+                android:onClick="@{(myview)-> clickListenerCheck.onClickedCheckbox(todo,myview)}"
+                android:paddingVertical="20dp"
+                android:text="App yaz"
+                android:textSize="25dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -53,9 +53,9 @@
 
             <ImageView
                 android:id="@+id/imageView_delete"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="4dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:onClick="@{(myview)-> clickListenerImage.onClickedDeleteImage(todo,myview)}"

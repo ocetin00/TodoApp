@@ -1,5 +1,6 @@
 package com.oguzhancetin.todolistapp.todolist
 
+import android.app.ActionBar
 import android.app.Activity
 import android.app.SearchManager
 import android.content.ComponentName
@@ -7,6 +8,8 @@ import android.content.Context
 import android.graphics.Paint
 import android.inputmethodservice.Keyboard
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
@@ -43,7 +46,7 @@ class TodoListFragment : Fragment() {
         setHasOptionsMenu(true)
 
 
-        //to set ttodo item text via onClickListener and Updata
+        //to set ttodo item text via onClickListener and Update
             todoAdapter = TodoListAdapter(TodoClickListenerCheckBox{todo,view->
             Log.e("id",id.toString())
             if (view.checkBox.isChecked) {
@@ -73,30 +76,39 @@ class TodoListFragment : Fragment() {
         viewModel.allTodoData.observe(viewLifecycleOwner, Observer {todos ->
           todos?.let {
 
+                  //List reversed to put first of list
                   todoAdapter.submitList(todos.reversed())
-                  todoAdapter.updateList(todos.reversed() )
+                  //update current list in adapter to find specific item
+                  todoAdapter.updateList(todos.reversed())
 
           }
         })
+
+
 
         //add todo item in recyclerview
         binding.buttonAdd.setOnClickListener {
             Log.e("button","clicked")
             val todoText = binding.editTextTodoContent.text.toString()
-            viewModel.insertTodo(Todo(todo = todoText))
-            binding.editTextTodoContent.text?.clear()
 
-            //observe dataset when add data from database move to scrol to first item
-            todoAdapter.registerAdapterDataObserver(object : AdapterDataObserver(){
-                override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                    if (positionStart == 0) {
-                        layoutManager.scrollToPosition(0)
+            //control if it is empty
+            if(!todoText.trim().isEmpty()){
+                viewModel.insertTodo(Todo(todo = todoText))
+                binding.editTextTodoContent.text?.clear()
+
+                //observe dataset when add data from database move to scrol to first item
+                todoAdapter.registerAdapterDataObserver(object : AdapterDataObserver(){
+                    override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                        if (positionStart == 0) {
+                            layoutManager.scrollToPosition(0)
+                        }
                     }
-                }
-            })
-            //close keybord
-            (requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(it.windowToken,0)
-            Toast.makeText(requireContext(),"Task Added",Toast.LENGTH_SHORT).show()
+                })
+                //close keybord
+                (requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(it.windowToken,0)
+                Toast.makeText(requireContext(),"Task Added",Toast.LENGTH_SHORT).show()
+            }
+
 
         }
 
@@ -135,7 +147,7 @@ class TodoListFragment : Fragment() {
         when(item.itemId){
             R.id.delete_allitems_action -> viewModel.deleteAllTodo().also { return true } //deleted all data
             R.id.delete_selecteditems_action -> viewModel.deleteTodowithStriked().also { return true }// deleted items which strike-through
-            R.id.share_todolist_action -> shareData(requireContext(),viewModel.allTodoData.value).also { return true }
+            R.id.share_todolist_action -> shareData(requireContext(),viewModel.allTodoData?.value).also { return true }
 
             else -> return false
         }

@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">TodoList</string>
+    
+    <string name="add_task_text">Buraya Görev Ekle</string>
+    
+    <string name="clear_completed_text">Yapılanları Sil</string>
+    <string name="clear_all_text">Tümünü Sil</string>
+    <string name="share_list_text">Listemi Paylaş</string>
+    <string name="search">Arama</string>
+
+</resources>
